@@ -1,0 +1,28 @@
+{
+  "name": "全自动跟打",
+  "id": "Yuan-Follow",
+  "version": "1.0.0",
+  "description": "Android 全自动跟打、条件检测、循环与悬浮窗",
+  "_dp_type": "nativeplugin",
+  "_dp_nativeplugin": {
+    "android": {
+      "plugins": [
+        {
+          "type": "module",
+          "name": "Yuan-Follow",
+          "class": "com.yuan.follow.uni.YuanFollowModule"
+        }
+      ],
+      "integrateType": "aar",
+      "dependencies": [
+        "com.google.mlkit:text-recognition-chinese:16.0.1",
+        "androidx.webkit:webkit:1.12.1"
+      ],
+      "minSdkVersion": 24,
+      "compileOptions": {
+        "sourceCompatibility": "17",
+        "targetCompatibility": "17"
+      }
+    }
+  }
+}

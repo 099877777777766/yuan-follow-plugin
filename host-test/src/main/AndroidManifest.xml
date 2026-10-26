@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <!-- 用户主动开启操作表局域网同步时使用原生 TLS；OCR 仍使用内置离线模型。 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 用户点击扫码连接才申请相机；无摄像头设备仍能使用相册或手动连接。 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+    <!-- 用户开始跟打或打开实时跟表悬浮窗期间维持前台通知，关闭浮窗释放接收会话。 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- 仅 Android 7–9 的公共目录导出使用；新系统通过 MediaStore 保存，不申请全盘权限。 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+    <!-- 用户明确选择跨公共目录平铺文件；只在平铺入口按需申请，另可主动使用系统照片选择器。 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <queries>
+        <intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent>
+        <intent><action android:name="android.intent.action.OPEN_DOCUMENT"/><category android:name="android.intent.category.OPENABLE"/><data android:mimeType="image/*"/></intent>
+    </queries>
+    <application android:allowBackup="false" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:theme="@style/AppTheme" android:supportsRtl="false" android:usesCleartextTraffic="false" android:enableOnBackInvokedCallback="true" android:requestLegacyExternalStorage="true">
+        <!-- 跟打调整使用独立窗口，返回游戏时不改动主 App 的页面栈。 -->
+        <activity android:name=".RecorderFollowEditorActivity" android:exported="false" android:taskAffinity="" android:excludeFromRecents="true" android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".FlatArchivePicker" android:exported="false" android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize"/>
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.selection" android:exported="false" android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/selection_paths"/>
+        </provider>
+        <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+        <service android:name="com.local.yuanatlas.FollowAccessibilityService" tools:node="remove"/>
+        <meta-data android:name="com.yuan.follow.service" android:value="com.local.yuanatlas.RuYuanCaptureService"/>
+        <service android:name=".RuYuanCaptureService" android:label="@string/app_name" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" android:exported="true" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible battle-table accessibility overlay; optional paired LAN table reception while the user is in a game, local round recognition and ordered gestures, with a pause notification; reception ends when the overlay closes or the service disconnects."/>
+            <intent-filter><action android:name="android.accessibilityservice.AccessibilityService"/></intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/ruyuan_capture_service"/>
+        </service>
+    </application>
+</manifest>

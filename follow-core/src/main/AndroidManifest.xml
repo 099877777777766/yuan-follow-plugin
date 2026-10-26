@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <queries><intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent></queries>
+    <application>
+        <service android:name="com.local.yuanatlas.FollowAccessibilityService" android:label="@string/yuan_follow_service_name" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" android:exported="true" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible battle-table overlay with local screen recognition, ordered gestures and a pause notification."/>
+            <intent-filter><action android:name="android.accessibilityservice.AccessibilityService"/></intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/yuan_follow_service"/>
+        </service>
+        <receiver android:name="com.local.yuanatlas.RecorderRunNotificationReceiver" android:exported="false"/>
+        <activity android:name="com.local.yuanatlas.FollowImportActivity" android:exported="false" android:theme="@android:style/Theme.Material.Light.NoActionBar"/>
+    </application>
+</manifest>

@@ -1,0 +1,1 @@
+let n=null;function t(t){const o=[...new Set(t.pages.flatMap(n=>n.capture?[n.capture.sessionId]:[]))].sort();n={...t,operationId:t.operationId??(o.length?`capture-import:${o.join(":")}`:`stone-import:${Date.now()}:${Math.random().toString(36).slice(2)}`)}}function o(){return n}function e(){var t;n=null,null==(t=window.YuanStoneOcr)||t.clearImages()}export{e as c,o as g,t as s};

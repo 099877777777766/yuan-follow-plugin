@@ -1,0 +1,9 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.yuan.follow.demo'; compileSdk 35; buildToolsVersion "35.0.0"
+ defaultConfig { applicationId 'com.yuan.follow.demo'; minSdk 30; targetSdk 35; versionCode 1; versionName '1.0.0'; testInstrumentationRunner 'com.local.yuanatlas.PluginChecks' }
+ sourceSets.androidTest.java.srcDirs = ['../src/tests/android']
+ sourceSets.androidTest.assets.srcDirs = ['../src/tests/fixtures']
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+dependencies { implementation project(':follow-core') }

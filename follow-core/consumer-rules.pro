@@ -1,0 +1,2 @@
+-keep public class com.local.yuanatlas.YuanFollow { public *; }
+-keepclassmembers class * { @android.webkit.JavascriptInterface <methods>; }

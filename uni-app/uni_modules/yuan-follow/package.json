@@ -1,0 +1,31 @@
+{
+  "id": "yuan-follow",
+  "displayName": "全自动跟打",
+  "version": "1.0.0",
+  "description": "Android 跟打核心的 UTS 接入层",
+  "keywords": [
+    "跟打",
+    "Android"
+  ],
+  "engines": {
+    "HBuilderX": "^4.0.0"
+  },
+  "dcloudext": {
+    "type": "uts"
+  },
+  "uni_modules": {
+    "dependencies": [],
+    "encrypt": [],
+    "platforms": {
+      "client": {
+        "App": {
+          "app-android": {
+            "minVersion": "11"
+          },
+          "app-ios": "n"
+        },
+        "H5": "n"
+      }
+    }
+  }
+}

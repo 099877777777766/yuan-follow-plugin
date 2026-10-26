@@ -1,0 +1,4 @@
+<resources>
+    <!-- 应用与权限服务共用名称，避免系统授权页显示旧的功能名称。 -->
+    <string name="app_name">鸢家百宝袋</string>
+</resources>

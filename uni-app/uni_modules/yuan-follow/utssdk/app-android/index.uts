@@ -1,0 +1,32 @@
+import { UTSAndroid } from 'io.dcloud.uts'
+import YuanFollow from 'com.local.yuanatlas.YuanFollow'
+import NativeCallback from 'com.local.yuanatlas.YuanFollow.Callback'
+import Uri from 'android.net.Uri'
+import { FollowComplete } from '../interface.uts'
+
+// Java 回调转换成一次性的 JS 结果，不持有页面状态或完整编辑器。
+class ResultCallback implements NativeCallback {
+  done: FollowComplete
+  constructor(done: FollowComplete) { this.done = done }
+  override onResult(ok: boolean, code: string, message: string): void {
+    this.done({ ok: ok, code: code, message: message })
+  }
+}
+export function status(): string { return YuanFollow.status(UTSAndroid.getAppContext()!) }
+export function openSettings(): void { YuanFollow.openAccessibilitySettings(UTSAndroid.getUniActivity()!) }
+export function openTable(gamePackage: string, tableJson: string, complete: FollowComplete): void {
+  YuanFollow.openTable(UTSAndroid.getAppContext()!, gamePackage, tableJson, new ResultCallback(complete))
+}
+export function openCode(gamePackage: string, code: string, complete: FollowComplete): void {
+  YuanFollow.openCode(UTSAndroid.getAppContext()!, gamePackage, code, new ResultCallback(complete))
+}
+export function chooseImage(gamePackage: string, complete: FollowComplete): void {
+  YuanFollow.chooseImage(UTSAndroid.getUniActivity()!, gamePackage, new ResultCallback(complete))
+}
+export function openImage(gamePackage: string, uri: string, complete: FollowComplete): void {
+  YuanFollow.openImage(UTSAndroid.getUniActivity()!, gamePackage, Uri.parse(uri), new ResultCallback(complete))
+}
+export function pause(): void { YuanFollow.pause() }
+export function close(): void { YuanFollow.close() }
+export function diagnostics(): string { return YuanFollow.diagnostics(UTSAndroid.getAppContext()!) }
+export function setTheme(json: string, complete: FollowComplete): void { YuanFollow.setTheme(UTSAndroid.getAppContext()!, json, new ResultCallback(complete)) }

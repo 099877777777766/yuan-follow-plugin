@@ -1,0 +1,16 @@
+plugins { id 'com.android.library'; id 'maven-publish' }
+android {
+    namespace 'com.local.yuanfollow'
+    compileSdk 35; buildToolsVersion "35.0.0"
+    defaultConfig { minSdk 24; consumerProguardFiles 'consumer-rules.pro' }
+    sourceSets.main.java.exclude '**/RecorderFollowEditSession.java'
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    publishing { singleVariant('release') { withSourcesJar() } }
+}
+dependencies { api 'androidx.webkit:webkit:1.12.1'; api 'com.google.mlkit:text-recognition-chinese:16.0.1' }
+afterEvaluate {
+    publishing {
+        publications { release(MavenPublication) { from components.release; groupId='com.yuan'; artifactId='follow-core'; version='1.0.0' } }
+        repositories { maven { url=layout.buildDirectory.dir('repo') } }
+    }
+}
