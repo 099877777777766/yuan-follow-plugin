@@ -38,7 +38,7 @@ final class RecorderConditionRoundPicker {
         dialog=new Dialog(context);dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);dialog.getWindow().setType(windowType);
         body=new LinearLayout(context);body.setOrientation(LinearLayout.VERTICAL);body.setPadding(dp(12),dp(16),dp(12),dp(12));
         heading=text(title+(cellMode?" · 选择单元格":" · 选择回合"),18);heading.setTypeface(null,Typeface.BOLD);body.addView(heading);
-        hint=text(cellMode?"点击密探单元格可多选，空白操作格也可选。同回合续行同列一起选中，在该回合第一步操作前检查一次。":"点击整行可多选，同一回合的续行会一起选中。"+(title.equals("紫星检测")||title.equals("橙星检测")?"同回合改选星色将替换原要求。":title.startsWith("龙脉重开")?"同回合改选龙脉内外将替换原要求；状态不符时重开。":""),11);hint.setPadding(0,dp(8),0,dp(12));body.addView(hint);
+        hint=text(cellMode?"点击密探单元格可多选，空白操作格也可选。同回合续行同列一起选中，在该回合第一步操作前检查一次。":"点击整行可多选，同一回合的续行会一起选中。"+(title.equals("蓝星检测")||title.equals("紫星检测")||title.equals("橙星检测")?"同回合改选星色将替换原要求。":title.startsWith("龙脉重开")?"同回合改选龙脉内外将替换原要求；状态不符时重开。":""),11);hint.setPadding(0,dp(8),0,dp(12));body.addView(hint);
         // 所有选择入口共用同一水印层，覆盖不透明选中格；列表滚动不移走作者标记。
         tableContent=new RecorderWatermarkedLayout(context,table.roleName,theme.muted);tableContent.setOrientation(LinearLayout.VERTICAL);body.addView(tableContent,new LinearLayout.LayoutParams(-1,0,1));
         if(table.headerNote!=null&&!table.headerNote.isEmpty()){TextView note=text(table.headerNote,12);note.setTag("table-note");note.setPadding(0,0,0,dp(8));tableContent.addView(note);}

@@ -68,7 +68,8 @@ final class RecorderRoundConditions {
     /** 先校验回合与重开规则，兼容读取旧配置；行动位留空由后续校验按不操作接受。 */
     void validateBase(RecorderFollowTable table){
         fazheng.validate(table);
-        for(String star:starTargets.values())if(!"purple".equals(star)&&!"orange".equals(star))throw new IllegalArgumentException("请选择紫星或橙星");
+        // 蓝星沿用既有星色格式，旧规则无需迁移或重置。
+        for(String star:starTargets.values())if(!"blue".equals(star)&&!"purple".equals(star)&&!"orange".equals(star))throw new IllegalArgumentException("请选择蓝星、紫星或橙星");
         if(dragonCount<1||dragonCount>6)throw new IllegalArgumentException("龙气数量范围为 1–6");
         Set<Integer> available=rounds(table);
         if(!available.containsAll(starTargets.keySet())||!available.containsAll(dragonRounds)||!available.containsAll(veinTargets.keySet())||!available.containsAll(actionRounds())||!available.containsAll(deathCells.keySet()))throw new IllegalArgumentException("请选择当前操作表中的回合");

@@ -19,7 +19,8 @@ final class RecorderConditionSettingsView {
     RecorderConditionSettingsView(Context context,LinearLayout parent,RecorderFollowTable table,RecorderRoundConditions value,Dialog owner,Supplier<RecorderOverlayTheme> theme){
         this.context=context;this.table=table;this.owner=owner;this.theme=theme;draft=value.copy();
         LinearLayout star=section(parent,"唤星检测");
-        selection(star,"紫星","purple");selection(star,"橙星","orange");
+        // 三种星色共用整表选回合、冲突覆盖及保存流程。
+        selection(star,"蓝星","blue");selection(star,"紫星","purple");selection(star,"橙星","orange");
         int column=RecorderRoundConditions.zhugeColumn(table);
         if(column>=0){
             LinearLayout dragon=section(parent,"龙气不足重开");
@@ -78,7 +79,7 @@ final class RecorderConditionSettingsView {
         close();if(key.equals("death")){
             picker=new RecorderConditionRoundPicker(context,table,"检测阵亡重开",draft.deathCells,theme.get(),owner.getWindow().getAttributes().type,cells->{draft.deathCells.clear();draft.deathCells.putAll(cells);refresh();});picker.show();return;
         }
-        String title=isVein(key)?"龙脉重开 · 要求"+RecorderDragonVeinVision.name(veinState(key)):key.equals("fazheng")?"法正圣物检测":key.equals("dragon")?"龙气检测":key.equals("purple")?"紫星检测":"橙星检测";
+        String title=isVein(key)?"龙脉重开 · 要求"+RecorderDragonVeinVision.name(veinState(key)):key.equals("fazheng")?"法正圣物检测":key.equals("dragon")?"龙气检测":RecorderConditionVision.starName(key)+"检测";
         Set<Integer> selected=selected(key);
         picker=new RecorderConditionRoundPicker(context,table,title,selected,theme.get(),owner.getWindow().getAttributes().type,rounds->{
             if(isVein(key)){draft.setVeinRounds(veinState(key),rounds);}else if(key.equals("fazheng")){draft.fazheng.rounds.clear();draft.fazheng.rounds.addAll(rounds);}else if(key.equals("dragon")){draft.dragonRounds.clear();draft.dragonRounds.addAll(rounds);}else draft.setStarRounds(key,rounds);refresh();

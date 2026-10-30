@@ -18,10 +18,12 @@ final class RecorderConditionVision {
         try{
             small=Bitmap.createScaledBitmap(clean,444,Math.round(clean.getHeight()*444f/clean.getWidth()),true);
             float scale=444f/viewport.width();RectF cards=new RectF(original.cards);cards.offset(-viewport.left,-viewport.top);cards.left*=scale;cards.right*=scale;cards.top*=scale;cards.bottom*=scale;
-            String color=star?star(small):null;
-            // 既有手机原帧的星光位置按包含上下黑边的画面校准。裁边后未命中时，
-            // 补查原纵向坐标；横向仍去掉平板留边，且只画一张 444 宽小图。
-            if(star&&color==null&&(viewport.top>0||viewport.bottom<frame.getHeight()))color=starWithVerticalBars(frame,viewport,overlay);
+            // 星光位置按包含上下黑边的原画面校准。先查原纵向位置，避免裁去
+            // 顶部暗区后把星光下方的金色伤害数字误认成橙星；左右留边仍扣除。
+            boolean verticalBars=viewport.top>0||viewport.bottom<frame.getHeight();
+            String color=star?(verticalBars?starWithVerticalBars(frame,viewport,overlay):star(small)):null;
+            // 兼容星光随有效游戏区缩放的画面；原位置未知时再查裁边坐标。
+            if(star&&color==null&&verticalBars)color=star(small);
             return new Reading(color,dragon?dragon(small,cards,column):-1);
         }finally{if(small!=null&&small!=clean)small.recycle();if(clean!=frame)clean.recycle();}
     }

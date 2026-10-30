@@ -10,6 +10,6 @@ public final class PluginChecks extends Instrumentation {
  RecorderFollowChecks.check(!RecorderFollowTable.parseLocal(blocked.toString()).allowAutoFollow,"disabled authorization must remain false");
  try{YuanFollow.validatePayloadSize("x".repeat(1024*1024+1));throw new AssertionError("oversize accepted");}catch(IllegalArgumentException expected){}
  try{YuanFollow.validateTarget(getTargetContext(),getTargetContext().getPackageName());throw new AssertionError("self target accepted");}catch(IllegalArgumentException expected){}
- String report=RecorderFollowChecks.run(this);result.putString("stream","\nPASS plugin boundary, authorization, payload bounds\n"+report+"\n");finish(-1,result);
+ String report=RecorderFollowChecks.run(this)+"\n"+RecorderStarColorChecks.run(this);result.putString("stream","\nPASS plugin boundary, authorization, payload bounds\n"+report+"\n");finish(-1,result);
  }catch(Throwable error){result.putString("stream",android.util.Log.getStackTraceString(error));finish(0,result);}}
 }
